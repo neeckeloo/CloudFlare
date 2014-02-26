@@ -45,12 +45,11 @@ class Client
     {
         $ch = curl_init();
 
-        $options = $this->getOptions();
-        $data['u'] = $options->getEmail();
-        $data['tkn'] = $options->getToken();
+        $data['u'] = $this->options->getEmail();
+        $data['tkn'] = $this->options->getToken();
 
-        $options = array(
-            CURLOPT_URL        => $options->getApiUrl(),
+        $curlOptions = array(
+            CURLOPT_URL        => $this->options->getApiUrl(),
             CURLOPT_POST       => true,
             CURLOPT_POSTFIELDS => $data,
             CURLOPT_CONNECTTIMEOUT => 10,
@@ -59,7 +58,7 @@ class Client
             CURLOPT_SSL_VERIFYPEER => false,
         );
 
-        foreach ($options as $key => $value) {
+        foreach ($curlOptions as $key => $value) {
             curl_setopt($ch, $key, $value);
         }
 

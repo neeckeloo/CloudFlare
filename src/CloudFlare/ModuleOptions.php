@@ -2,14 +2,13 @@
 namespace CloudFlare;
 
 use Zend\Stdlib\AbstractOptions;
-use Zend\Validator\Uri as UriValidator;
 
 class ModuleOptions extends AbstractOptions implements ModuleOptionsInterface
 {
     /**
      * @var string
      */
-    protected $apiUrl = null;
+    protected $apiUrl = 'https://www.cloudflare.com/api_json.html';
 
     /**
      * @var string
