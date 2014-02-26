@@ -1,0 +1,34 @@
+{
+    "name": "neeckeloo/cloudflare",
+    "description": "CloudFlare module for Zend Framework 2",
+    "type": "library",
+    "keywords": [
+        "zf2", "cloudflare", "cdn"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/neeckeloo/CloudFlare",
+    "authors": [
+        {
+            "name": "Nicolas Eeckeloo",
+            "email": "neeckeloo@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "zendframework/zend-servicemanager": "2.*",
+        "zendframework/zend-stdlib": "2.*",
+        "phpunit/phpunit": "3.7.*",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "CloudFlare": "src/",
+            "CloudFlareTest": "tests/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}

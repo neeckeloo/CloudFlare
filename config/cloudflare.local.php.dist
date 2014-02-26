@@ -1,0 +1,19 @@
+<?php
+return array(
+    'cloudflare' => array(
+        /**
+         * Define api url
+         */
+        // 'api_url' => '',
+
+        /**
+         * Define email account
+         */
+        // 'email' => '',
+
+        /**
+         * Define api token
+         */
+        // 'token' => '',
+    ),
+);
