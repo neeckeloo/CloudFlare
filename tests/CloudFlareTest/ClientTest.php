@@ -34,4 +34,52 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->client->purge('domain.com');
     }
+
+    public function testSetCacheLevel()
+    {
+        $cacheLevel = Client::CACHE_LEVEL_BASIC;
+
+        $this->client
+            ->expects($this->once())
+            ->method('send')
+            ->with(array(
+                'a' => 'cache_lvl',
+                'z' => 'domain.com',
+                'v' => $cacheLevel,
+            ));
+
+        $this->client->setCacheLevel('domain.com', $cacheLevel);
+    }
+
+    public function testSetSecurityLevel()
+    {
+        $securityLevel = Client::SECURITY_LEVEL_LOW;
+
+        $this->client
+            ->expects($this->once())
+            ->method('send')
+            ->with(array(
+                'a' => 'sec_lvl',
+                'z' => 'domain.com',
+                'v' => $securityLevel,
+            ));
+
+        $this->client->setSecurityLevel('domain.com', $securityLevel);
+    }
+
+    public function testSetDevelopmentMode()
+    {
+        $mode = 1;
+
+        $this->client
+            ->expects($this->once())
+            ->method('send')
+            ->with(array(
+                'a' => 'devmode',
+                'z' => 'domain.com',
+                'v' => $mode,
+            ));
+
+        $this->client->setDevelopmentMode('domain.com', $mode);
+    }
 }

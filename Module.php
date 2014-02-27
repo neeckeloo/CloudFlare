@@ -33,9 +33,15 @@ class Module implements
     public function getConsoleUsage(ConsoleAdapterInterface $console)
     {
         return array(
-            'cdn purge <domain>' => 'Clear CloudFlare\'s cache',
+            'cdn purge <domain>' => 'Clear cache',
+            'cdn cache_lvl <cache_level>' => 'Set the cache level',
+            'cdn sec_lvl <security_level>' => 'Set the security level',
+            'cdn dev_mode <dev_mode>' => 'Toggling Development Mode',
 
             array('<domain>', 'Target domain'),
+            array('<cache_level>', 'Security level'),
+            array('<security_level>', 'Security level'),
+            array('<dev_mode>', 'Development mode'),
         );
     }
 }
