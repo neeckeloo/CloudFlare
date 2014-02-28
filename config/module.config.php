@@ -1,8 +1,12 @@
 <?php
 return array(
     'service_manager' => array(
+        'invokables' => array(
+            'CloudFlare\Service\SettingsService' => 'CloudFlare\Service\SettingsService',
+            'CloudFlare\Service\StatsService'    => 'CloudFlare\Service\StatsService',
+            'CloudFlare\Service\DnsService'      => 'CloudFlare\Service\DnsService',
+        ),
         'factories' => array(
-            'CloudFlare\Client'        => 'CloudFlare\Factory\ClientFactory',
             'CloudFlare\ModuleOptions' => 'CloudFlare\Factory\ModuleOptionsFactory',
         ),
     ),

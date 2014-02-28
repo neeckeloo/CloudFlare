@@ -1,23 +1,37 @@
 <?php
 namespace CloudFlare\Controller;
 
-use CloudFlare\Client;
+use CloudFlare\Service\DnsService;
+use CloudFlare\Service\SettingsService;
+use CloudFlare\Service\StatsService;
 use CloudFlare\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class ConsoleController extends AbstractActionController
 {
     /**
-     * @var Client
+     * @var SettingsService
      */
-    protected $client;
+    protected $settingsService;
+    /**
+     * @var DnsService
+     */
+    protected $dnsService;
+    /**
+     * @var StatsService
+     */
+    protected $statsService;
 
     /**
-     * @param Client $client
+     * @param SettingsService $settingsService
+     * @param DnsService $settingsService
+     * @param StatsService $settingsService
      */
-    public function __construct(Client $client)
+    public function __construct(SettingsService $settingsService, DnsService $dnsService, StatsService $statsService)
     {
-        $this->client = $client;
+        $this->settingsService = $settingsService;
+        $this->dnsService = $dnsService;
+        $this->statsService = $statsService;
     }
 
     public function purgeAction()
@@ -25,7 +39,7 @@ class ConsoleController extends AbstractActionController
         $domain = $this->params('domain');
 
         try {
-            $this->client->purge($domain);
+            $this->settingsService->purge($domain);
         } catch (Exception\ExceptionInterface $e) {
             return "\nError: " . $e->getMessage() . "\n\n";
         }
@@ -42,7 +56,7 @@ class ConsoleController extends AbstractActionController
         $level = $this->params('level');
 
         try {
-            $this->client->setCacheLevel($domain, $level);
+            $this->settingsService->setCacheLevel($domain, $level);
         } catch (Exception\ExceptionInterface $e) {
             return "\nError: " . $e->getMessage() . "\n\n";
         }
@@ -59,7 +73,7 @@ class ConsoleController extends AbstractActionController
         $level = $this->params('level');
 
         try {
-            $this->client->setSecurityLevel($domain, $level);
+            $this->settingsService->setSecurityLevel($domain, $level);
         } catch (Exception\ExceptionInterface $e) {
             return "\nError: " . $e->getMessage() . "\n\n";
         }
@@ -82,7 +96,7 @@ class ConsoleController extends AbstractActionController
         }
 
         try {
-            $this->client->setDevelopmentMode($domain, $mode);
+            $this->settingsService->setDevelopmentMode($domain, $mode);
         } catch (Exception\ExceptionInterface $e) {
             return "\nError: " . $e->getMessage() . "\n\n";
         }

@@ -13,8 +13,12 @@ class ConsoleControllerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $client = $serviceLocator->getServiceLocator()->get('CloudFlare\Client');
+        $serviceLocator = $serviceLocator->getServiceLocator();
 
-        return new ConsoleController($client);
+        $settingsService = $serviceLocator->get('CloudFlare\Service\SettingsService');
+        $dnsService = $serviceLocator->get('CloudFlare\Service\dnsService');
+        $statsService = $serviceLocator->get('CloudFlare\Service\StatsService');
+
+        return new ConsoleController($settingsService, $dnsService, $statsService);
     }
 }

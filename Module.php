@@ -25,6 +25,20 @@ class Module implements
         );
     }
 
+    public function getServiceConfig()
+    {
+        return array(
+            'initializers' => array(
+                function ($instance, $sm) {
+                    if ($instance instanceof ModuleOptionsAwareInterface) {
+                        $moduleOptions = $sm->get('CloudFlare\ModuleOptions');
+                        $instance->setModuleOptions($moduleOptions);
+                    }
+                },
+            ),
+        );
+    }
+
     public function getConsoleBanner(ConsoleAdapterInterface $console)
     {
         return 'CloudFlare';

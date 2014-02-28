@@ -17,10 +17,6 @@ class ConsoleControllerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateService()
     {
-        $client = $this->getMockBuilder('CloudFlare\Client')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $serviceManager = $this->getMockBuilder('Zend\ServiceManager\ServiceManager')
             ->disableOriginalConstructor()
             ->setMethods(array('getServiceLocator', 'get'))
@@ -30,9 +26,29 @@ class ConsoleControllerFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getServiceLocator')
             ->will($this->returnSelf());
 
-        $serviceManager->expects($this->once())
+        $settingsService = $this->getMockBuilder('CloudFlare\Service\SettingsService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $serviceManager->expects($this->at(1))
             ->method('get')
-            ->will($this->returnValue($client));
+            ->will($this->returnValue($settingsService));
+
+        $dnsService = $this->getMockBuilder('CloudFlare\Service\DnsService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $serviceManager->expects($this->at(2))
+            ->method('get')
+            ->will($this->returnValue($dnsService));
+
+        $statsService = $this->getMockBuilder('CloudFlare\Service\StatsService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $serviceManager->expects($this->at(3))
+            ->method('get')
+            ->will($this->returnValue($statsService));
 
         $controller = $this->controllerFactory->createService($serviceManager);
 
