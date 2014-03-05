@@ -13,7 +13,9 @@ return array(
 
     'controllers' => array(
         'factories' => array(
-            'CloudFlare\Controller\ConsoleController' => 'CloudFlare\Factory\ConsoleControllerFactory',
+            'CloudFlare\Controller\DnsConsoleController'      => 'CloudFlare\Factory\DnsConsoleControllerFactory',
+            'CloudFlare\Controller\SettingsConsoleController' => 'CloudFlare\Factory\SettingsConsoleControllerFactory',
+            'CloudFlare\Controller\StatsConsoleController'    => 'CloudFlare\Factory\StatsConsoleControllerFactory',
         ),
     ),
 
@@ -25,7 +27,7 @@ return array(
                     'options' => array(
                         'route'    => 'cdn purge <domain>',
                         'defaults' => array(
-                            'controller' => 'CloudFlare\Controller\ConsoleController',
+                            'controller' => 'CloudFlare\Controller\SettingsConsoleController',
                             'action'     => 'purge',
                         ),
                     ),
@@ -35,7 +37,7 @@ return array(
                     'options' => array(
                         'route'    => 'cdn cache_lvl <domain> <level>',
                         'defaults' => array(
-                            'controller' => 'CloudFlare\Controller\ConsoleController',
+                            'controller' => 'CloudFlare\Controller\SettingsConsoleController',
                             'action'     => 'cache-level',
                         ),
                     ),
@@ -45,7 +47,7 @@ return array(
                     'options' => array(
                         'route'    => 'cdn sec_lvl <domain> <level>',
                         'defaults' => array(
-                            'controller' => 'CloudFlare\Controller\ConsoleController',
+                            'controller' => 'CloudFlare\Controller\SettingsConsoleController',
                             'action'     => 'security-level',
                         ),
                     ),
@@ -55,7 +57,7 @@ return array(
                     'options' => array(
                         'route'    => 'cdn dev_mode <domain> <mode>',
                         'defaults' => array(
-                            'controller' => 'CloudFlare\Controller\ConsoleController',
+                            'controller' => 'CloudFlare\Controller\SettingsConsoleController',
                             'action'     => 'development-mode',
                         ),
                     ),

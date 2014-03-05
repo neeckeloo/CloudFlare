@@ -1,37 +1,23 @@
 <?php
 namespace CloudFlare\Controller;
 
-use CloudFlare\Service\DnsService;
 use CloudFlare\Service\SettingsService;
-use CloudFlare\Service\StatsService;
 use CloudFlare\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 
-class ConsoleController extends AbstractActionController
+class SettingsConsoleController extends AbstractActionController
 {
     /**
      * @var SettingsService
      */
     protected $settingsService;
-    /**
-     * @var DnsService
-     */
-    protected $dnsService;
-    /**
-     * @var StatsService
-     */
-    protected $statsService;
 
     /**
      * @param SettingsService $settingsService
-     * @param DnsService $settingsService
-     * @param StatsService $settingsService
      */
-    public function __construct(SettingsService $settingsService, DnsService $dnsService, StatsService $statsService)
+    public function __construct(SettingsService $settingsService)
     {
         $this->settingsService = $settingsService;
-        $this->dnsService = $dnsService;
-        $this->statsService = $statsService;
     }
 
     public function purgeAction()
