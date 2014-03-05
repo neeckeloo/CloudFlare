@@ -1,23 +1,23 @@
 <?php
 namespace CloudFlare\Controller;
 
-use CloudFlare\Client;
+use CloudFlare\Service\SettingsService;
 use CloudFlare\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 
-class ConsoleController extends AbstractActionController
+class SettingsConsoleController extends AbstractActionController
 {
     /**
-     * @var Client
+     * @var SettingsService
      */
-    protected $client;
+    protected $settingsService;
 
     /**
-     * @param Client $client
+     * @param SettingsService $settingsService
      */
-    public function __construct(Client $client)
+    public function __construct(SettingsService $settingsService)
     {
-        $this->client = $client;
+        $this->settingsService = $settingsService;
     }
 
     public function purgeAction()
@@ -25,7 +25,7 @@ class ConsoleController extends AbstractActionController
         $domain = $this->params('domain');
 
         try {
-            $this->client->purge($domain);
+            $this->settingsService->purge($domain);
         } catch (Exception\ExceptionInterface $e) {
             return "\nError: " . $e->getMessage() . "\n\n";
         }
@@ -42,7 +42,7 @@ class ConsoleController extends AbstractActionController
         $level = $this->params('level');
 
         try {
-            $this->client->setCacheLevel($domain, $level);
+            $this->settingsService->setCacheLevel($domain, $level);
         } catch (Exception\ExceptionInterface $e) {
             return "\nError: " . $e->getMessage() . "\n\n";
         }
@@ -59,7 +59,7 @@ class ConsoleController extends AbstractActionController
         $level = $this->params('level');
 
         try {
-            $this->client->setSecurityLevel($domain, $level);
+            $this->settingsService->setSecurityLevel($domain, $level);
         } catch (Exception\ExceptionInterface $e) {
             return "\nError: " . $e->getMessage() . "\n\n";
         }
@@ -82,7 +82,7 @@ class ConsoleController extends AbstractActionController
         }
 
         try {
-            $this->client->setDevelopmentMode($domain, $mode);
+            $this->settingsService->setDevelopmentMode($domain, $mode);
         } catch (Exception\ExceptionInterface $e) {
             return "\nError: " . $e->getMessage() . "\n\n";
         }

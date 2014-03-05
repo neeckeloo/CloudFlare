@@ -1,26 +1,22 @@
 <?php
 namespace CloudFlareTest\Factory;
 
-use CloudFlare\Factory\ConsoleControllerFactory;
+use CloudFlare\Factory\StatsConsoleControllerFactory;
 
-class ConsoleControllerFactoryTest extends \PHPUnit_Framework_TestCase
+class StatsConsoleControllerFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var ConsoleControllerFactory
+     * @var StatsConsoleControllerFactory
      */
     protected $controllerFactory;
 
     public function setUp()
     {
-        $this->controllerFactory = new ConsoleControllerFactory();
+        $this->controllerFactory = new StatsConsoleControllerFactory();
     }
 
     public function testCreateService()
     {
-        $client = $this->getMockBuilder('CloudFlare\Client')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $serviceManager = $this->getMockBuilder('Zend\ServiceManager\ServiceManager')
             ->disableOriginalConstructor()
             ->setMethods(array('getServiceLocator', 'get'))
@@ -30,12 +26,16 @@ class ConsoleControllerFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getServiceLocator')
             ->will($this->returnSelf());
 
+        $statsService = $this->getMockBuilder('CloudFlare\Service\StatsService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $serviceManager->expects($this->once())
             ->method('get')
-            ->will($this->returnValue($client));
+            ->will($this->returnValue($statsService));
 
         $controller = $this->controllerFactory->createService($serviceManager);
 
-        $this->assertInstanceOf('CloudFlare\Controller\ConsoleController', $controller);
+        $this->assertInstanceOf('CloudFlare\Controller\StatsConsoleController', $controller);
     }
 }

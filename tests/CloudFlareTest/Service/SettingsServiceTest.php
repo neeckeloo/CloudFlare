@@ -1,29 +1,29 @@
 <?php
-namespace CloudFlareTest;
+namespace CloudFlareTest\Service;
 
-use CloudFlare\Client;
+use CloudFlare\Service\SettingsService;
 use CloudFlare\ModuleOptions;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class SettingsServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Client
+     * @var SettingsService
      */
-    protected $client;
+    protected $service;
 
     public function setUp()
     {
-        $options = new ModuleOptions(array());
-
-        $this->client = $this->getMockBuilder('CloudFlare\Client')
-            ->setConstructorArgs(array($options))
+        $this->service = $this->getMockBuilder('CloudFlare\Service\SettingsService')
             ->setMethods(array('send'))
             ->getMock();
+
+        $options = new ModuleOptions(array());
+        $this->service->setModuleOptions($options);
     }
 
     public function testPurgeCache()
     {
-        $this->client
+        $this->service
             ->expects($this->once())
             ->method('send')
             ->with(array(
@@ -32,14 +32,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 'v' => 1,
             ));
 
-        $this->client->purge('domain.com');
+        $this->service->purge('domain.com');
     }
 
     public function testSetCacheLevel()
     {
-        $cacheLevel = Client::CACHE_LEVEL_BASIC;
+        $cacheLevel = SettingsService::CACHE_LEVEL_BASIC;
 
-        $this->client
+        $this->service
             ->expects($this->once())
             ->method('send')
             ->with(array(
@@ -48,14 +48,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 'v' => $cacheLevel,
             ));
 
-        $this->client->setCacheLevel('domain.com', $cacheLevel);
+        $this->service->setCacheLevel('domain.com', $cacheLevel);
     }
 
     public function testSetSecurityLevel()
     {
-        $securityLevel = Client::SECURITY_LEVEL_LOW;
+        $securityLevel = SettingsService::SECURITY_LEVEL_LOW;
 
-        $this->client
+        $this->service
             ->expects($this->once())
             ->method('send')
             ->with(array(
@@ -64,14 +64,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 'v' => $securityLevel,
             ));
 
-        $this->client->setSecurityLevel('domain.com', $securityLevel);
+        $this->service->setSecurityLevel('domain.com', $securityLevel);
     }
 
     public function testSetDevelopmentMode()
     {
         $mode = 1;
 
-        $this->client
+        $this->service
             ->expects($this->once())
             ->method('send')
             ->with(array(
@@ -80,6 +80,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 'v' => $mode,
             ));
 
-        $this->client->setDevelopmentMode('domain.com', $mode);
+        $this->service->setDevelopmentMode('domain.com', $mode);
     }
 }
