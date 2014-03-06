@@ -2,6 +2,7 @@
 namespace CloudFlareTest\Factory;
 
 use CloudFlare\Factory\DnsConsoleControllerFactory;
+use Zend\ServiceManager\ServiceManager;
 
 class DnsConsoleControllerFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,25 +18,19 @@ class DnsConsoleControllerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateService()
     {
-        $serviceManager = $this->getMockBuilder('Zend\ServiceManager\ServiceManager')
+        $serviceManager = new ServiceManager;
+        $serviceManager->setService('CloudFlare\Service\DnsService', new \CloudFlare\Service\DnsService());
+
+        $pluginManager = $this->getMockBuilder('Zend\ServiceManager\AbstractPluginManager')
             ->disableOriginalConstructor()
-            ->setMethods(array('getServiceLocator', 'get'))
+            ->setMethods(array('getServiceLocator', 'validatePlugin'))
             ->getMock();
 
-        $serviceManager->expects($this->once())
+        $pluginManager->expects($this->once())
             ->method('getServiceLocator')
-            ->will($this->returnSelf());
+            ->will($this->returnValue($serviceManager));
 
-        $dnsService = $this->getMockBuilder('CloudFlare\Service\DnsService')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $serviceManager->expects($this->once())
-            ->method('get')
-            ->will($this->returnValue($dnsService));
-
-        $controller = $this->controllerFactory->createService($serviceManager);
-
+        $controller = $this->controllerFactory->createService($pluginManager);
         $this->assertInstanceOf('CloudFlare\Controller\DnsConsoleController', $controller);
     }
 }
