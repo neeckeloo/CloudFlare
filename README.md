@@ -24,9 +24,18 @@ Installation
 CloudFlare module only officially supports installation through Composer. For Composer documentation, please refer to
 [getcomposer.org](http://getcomposer.org/).
 
-Install the module:
+You can install the module from command line:
 ```sh
 $ php composer.phar require neeckeloo/cloudflare:dev-master
+```
+
+Alternatively, you can also add manually the dependency in your `composer.json` file:
+```json
+{
+    "require": {
+        "neeckeloo/cloudflare": "dev-master"
+    }
+}
 ```
 
 Enable the module by adding `CloudFlare` key to your `application.config.php` file. Customize the module by copy-pasting
