@@ -17,6 +17,7 @@
         "php": ">=5.3.3"
     },
     "require-dev": {
+        "zendframework/zend-console": "2.*",
         "zendframework/zend-mvc": "2.*",
         "zendframework/zend-servicemanager": "2.*",
         "zendframework/zend-stdlib": "2.*",

@@ -2,7 +2,6 @@
 namespace CloudFlare\Controller;
 
 use CloudFlare\Service\SettingsService;
-use CloudFlare\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class SettingsConsoleController extends AbstractActionController
@@ -24,11 +23,7 @@ class SettingsConsoleController extends AbstractActionController
     {
         $domain = $this->params('domain');
 
-        try {
-            $this->settingsService->purge($domain);
-        } catch (Exception\ExceptionInterface $e) {
-            return "\nError: " . $e->getMessage() . "\n\n";
-        }
+        $this->settingsService->purge($domain);
 
         return sprintf(
             "\nCache purged for domain %s\n\n",
@@ -41,11 +36,7 @@ class SettingsConsoleController extends AbstractActionController
         $domain = $this->params('domain');
         $level = $this->params('level');
 
-        try {
-            $this->settingsService->setCacheLevel($domain, $level);
-        } catch (Exception\ExceptionInterface $e) {
-            return "\nError: " . $e->getMessage() . "\n\n";
-        }
+        $this->settingsService->setCacheLevel($domain, $level);
 
         return sprintf(
             "\nCache level for domain %s changed\n\n",
@@ -58,11 +49,7 @@ class SettingsConsoleController extends AbstractActionController
         $domain = $this->params('domain');
         $level = $this->params('level');
 
-        try {
-            $this->settingsService->setSecurityLevel($domain, $level);
-        } catch (Exception\ExceptionInterface $e) {
-            return "\nError: " . $e->getMessage() . "\n\n";
-        }
+        $this->settingsService->setSecurityLevel($domain, $level);
 
         return sprintf(
             "\nSecurity level for domain %s changed\n\n",
@@ -81,11 +68,7 @@ class SettingsConsoleController extends AbstractActionController
             $mode = 0;
         }
 
-        try {
-            $this->settingsService->setDevelopmentMode($domain, $mode);
-        } catch (Exception\ExceptionInterface $e) {
-            return "\nError: " . $e->getMessage() . "\n\n";
-        }
+        $this->settingsService->setDevelopmentMode($domain, $mode);
 
         if ($mode) {
             $modeStr = 'enabled';

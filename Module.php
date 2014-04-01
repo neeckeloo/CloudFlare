@@ -2,6 +2,8 @@
 namespace CloudFlare;
 
 use Zend\Console\Adapter\AdapterInterface as ConsoleAdapterInterface;
+use Zend\Console\Request as ConsoleRequest;
+use Zend\Mvc\MvcEvent;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
@@ -37,6 +39,25 @@ class Module implements
                 },
             ),
         );
+    }
+
+    public function onBootstrap(MvcEvent $e)
+    {
+        $eventManager = $e->getApplication()->getEventManager();
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, function(MvcEvent $e) {
+            $exception = $e->getParam('exception');
+            if (!$exception) {
+                return;
+            }
+            
+            $request = $e->getRequest();
+            if (!$request instanceof ConsoleRequest) {
+                return;
+            }
+
+            $model = $e->getViewModel();
+            $model->setResult(sprintf("\nError: %s\n\n", $e->getMessage()));
+        });
     }
 
     public function getConsoleBanner(ConsoleAdapterInterface $console)
