@@ -2,6 +2,7 @@
 return array(
     'service_manager' => array(
         'invokables' => array(
+            'CloudFlare\Listener\ErrorListener'  => 'CloudFlare\Listener\ErrorListener',
             'CloudFlare\Service\SettingsService' => 'CloudFlare\Service\SettingsService',
             'CloudFlare\Service\StatsService'    => 'CloudFlare\Service\StatsService',
             'CloudFlare\Service\DnsService'      => 'CloudFlare\Service\DnsService',

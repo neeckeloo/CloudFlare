@@ -2,7 +2,6 @@
 namespace CloudFlare;
 
 use Zend\Console\Adapter\AdapterInterface as ConsoleAdapterInterface;
-use Zend\Console\Request as ConsoleRequest;
 use Zend\Mvc\MvcEvent;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
@@ -43,21 +42,11 @@ class Module implements
 
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager = $e->getApplication()->getEventManager();
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, function(MvcEvent $e) {
-            $exception = $e->getParam('exception');
-            if (!$exception) {
-                return;
-            }
-            
-            $request = $e->getRequest();
-            if (!$request instanceof ConsoleRequest) {
-                return;
-            }
-
-            $model = $e->getViewModel();
-            $model->setResult(sprintf("\nError: %s\n\n", $e->getMessage()));
-        });
+        $application = $e->getApplication();
+        $serviceManager = $application->getServiceManager();
+        
+        $eventManager = $application->getEventManager();
+        $eventManager->attach($serviceManager->get('CloudFlare\Listener\ErrorListener'));
     }
 
     public function getConsoleBanner(ConsoleAdapterInterface $console)
@@ -69,9 +58,9 @@ class Module implements
     {
         return array(
             'cdn purge <domain>' => 'Clear cache',
-            'cdn cache_lvl <cache_level>' => 'Set the cache level',
-            'cdn sec_lvl <security_level>' => 'Set the security level',
-            'cdn dev_mode <dev_mode>' => 'Toggling Development Mode',
+            'cdn cache_lvl <domain> <cache_level>' => 'Set the cache level',
+            'cdn sec_lvl <domain> <security_level>' => 'Set the security level',
+            'cdn dev_mode <domain> <dev_mode>' => 'Toggling Development Mode',
 
             array('<domain>', 'Target domain'),
             array('<cache_level>', 'Security level'),

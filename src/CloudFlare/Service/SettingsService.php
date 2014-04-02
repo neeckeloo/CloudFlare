@@ -1,6 +1,8 @@
 <?php
 namespace CloudFlare\Service;
 
+use CloudFlare\Exception;
+
 class SettingsService extends AbstractService
 {
     const CACHE_LEVEL_AGGRESSIVE = 'agg';
