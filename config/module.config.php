@@ -36,7 +36,7 @@ return array(
                 'cdn-cache-lvl' => array(
                     'type' => 'Simple',
                     'options' => array(
-                        'route'    => 'cdn cache_lvl <domain> <level>',
+                        'route'    => 'cdn cache_lvl <domain> [<level>]',
                         'defaults' => array(
                             'controller' => 'CloudFlare\Controller\SettingsConsoleController',
                             'action'     => 'cache-level',
@@ -46,7 +46,7 @@ return array(
                 'cdn-sec-lvl' => array(
                     'type' => 'Simple',
                     'options' => array(
-                        'route'    => 'cdn sec_lvl <domain> <level>',
+                        'route'    => 'cdn sec_lvl <domain> [<level>]',
                         'defaults' => array(
                             'controller' => 'CloudFlare\Controller\SettingsConsoleController',
                             'action'     => 'security-level',
@@ -56,7 +56,7 @@ return array(
                 'cdn-dev-mode' => array(
                     'type' => 'Simple',
                     'options' => array(
-                        'route'    => 'cdn dev_mode <domain> <mode>',
+                        'route'    => 'cdn dev_mode <domain> [<mode>]',
                         'defaults' => array(
                             'controller' => 'CloudFlare\Controller\SettingsConsoleController',
                             'action'     => 'development-mode',
@@ -66,10 +66,10 @@ return array(
                 'cdn-minify' => array(
                     'type' => 'Simple',
                     'options' => array(
-                        'route'    => 'cdn minify <domain> <value>',
+                        'route'    => 'cdn minify <domain> [<value>]',
                         'defaults' => array(
                             'controller' => 'CloudFlare\Controller\SettingsConsoleController',
-                            'action'     => 'minify',
+                            'action'     => 'minification',
                         ),
                     ),
                 ),

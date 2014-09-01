@@ -44,7 +44,7 @@ class Module implements
     {
         $application = $e->getApplication();
         $serviceManager = $application->getServiceManager();
-        
+
         $eventManager = $application->getEventManager();
         $eventManager->attach($serviceManager->get('CloudFlare\Listener\ErrorListener'));
     }
@@ -61,11 +61,13 @@ class Module implements
             'cdn cache_lvl <domain> <cache_level>' => 'Set the cache level',
             'cdn sec_lvl <domain> <security_level>' => 'Set the security level',
             'cdn dev_mode <domain> <dev_mode>' => 'Toggling Development Mode',
+            'cdn minify <domain> <minification>' => 'Set minification rule',
 
             array('<domain>', 'Target domain'),
             array('<cache_level>', 'Security level'),
             array('<security_level>', 'Security level'),
             array('<dev_mode>', 'Development mode'),
+            array('<minification>', 'Minification rule'),
         );
     }
 }

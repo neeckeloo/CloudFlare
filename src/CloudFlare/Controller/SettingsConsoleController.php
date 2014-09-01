@@ -36,6 +36,14 @@ class SettingsConsoleController extends AbstractActionController
         $domain = $this->params('domain');
         $level = $this->params('level');
 
+        if (null === $level) {
+            return sprintf(
+                "\nCache level for \"%s\" domain: %s\n\n",
+                $domain,
+                $this->settingsService->getCacheLevel($domain)
+            );
+        }
+
         $this->settingsService->setCacheLevel($domain, $level);
 
         return sprintf(
@@ -49,6 +57,14 @@ class SettingsConsoleController extends AbstractActionController
         $domain = $this->params('domain');
         $level = $this->params('level');
 
+        if (null === $level) {
+            return sprintf(
+                "\nSecurity level for \"%s\" domain: %s\n\n",
+                $domain,
+                $this->settingsService->getSecurityLevel($domain)
+            );
+        }
+
         $this->settingsService->setSecurityLevel($domain, $level);
 
         return sprintf(
@@ -61,6 +77,14 @@ class SettingsConsoleController extends AbstractActionController
     {
         $domain = $this->params('domain');
         $mode = $this->params('mode');
+
+        if (null === $mode) {
+            return sprintf(
+                "\nDevelopment mode for \"%s\" domain: %s\n\n",
+                $domain,
+                $this->settingsService->getDevelopmentMode($domain)
+            );
+        }
 
         if ($mode == 'on') {
             $mode = 1;
@@ -87,6 +111,14 @@ class SettingsConsoleController extends AbstractActionController
     {
         $domain = $this->params('domain');
         $value = $this->params('value');
+
+        if (null === $value) {
+            return sprintf(
+                "\nMinification for \"%s\" domain: %s\n\n",
+                $domain,
+                $this->settingsService->getMinification($domain)
+            );
+        }
 
         $this->settingsService->setMinification($domain, $value);
 

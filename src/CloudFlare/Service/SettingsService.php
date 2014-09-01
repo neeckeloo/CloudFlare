@@ -30,34 +30,54 @@ class SettingsService extends AbstractService
      * @var array
      */
     protected $cacheLevels = array(
-        self::CACHE_LEVEL_AGGRESSIVE,
-        self::CACHE_LEVEL_BASIC,
+        self::CACHE_LEVEL_AGGRESSIVE => 'Aggressive',
+        self::CACHE_LEVEL_BASIC      => 'Basic',
     );
 
     /**
      * @var array
      */
     protected $securityLevels = array(
-        self::SECURITY_LEVEL_HELP,
-        self::SECURITY_LEVEL_HIGH,
-        self::SECURITY_LEVEL_MEDIUM,
-        self::SECURITY_LEVEL_LOW,
-        self::SECURITY_LEVEL_ESSENTIALLY_OFF,
+        self::SECURITY_LEVEL_HELP            => 'Help',
+        self::SECURITY_LEVEL_HIGH            => 'High',
+        self::SECURITY_LEVEL_MEDIUM          => 'Medium',
+        self::SECURITY_LEVEL_LOW             => 'Low',
+        self::SECURITY_LEVEL_ESSENTIALLY_OFF => 'Essentialy off',
     );
 
     /**
      * @var array
      */
     protected $minificationValues = array(
-        self::MINIFY_OFF,
-        self::MINIFY_JAVASCRIPT_ONLY,
-        self::MINIFY_CSS_ONLY,
-        self::MINIFY_JAVASCRIPT_AND_CSS,
-        self::MINIFY_HTML_ONLY,
-        self::MINIFY_JAVASCRIPT_AND_HTML,
-        self::MINIFY_CSS_AND_HTML,
-        self::MINIFY_CSS_JAVASCRIPT_AND_HTML,
+        self::MINIFY_OFF                     => 'Off',
+        self::MINIFY_JAVASCRIPT_ONLY         => 'Javascript only',
+        self::MINIFY_CSS_ONLY                => 'CSS only',
+        self::MINIFY_JAVASCRIPT_AND_CSS      => 'Javascript and CSS',
+        self::MINIFY_HTML_ONLY               => 'HTML only',
+        self::MINIFY_JAVASCRIPT_AND_HTML     => 'Javascript and HTML',
+        self::MINIFY_CSS_AND_HTML            => 'CSS and HTML',
+        self::MINIFY_CSS_JAVASCRIPT_AND_HTML => 'CSS, Javascript and HTML',
     );
+
+    /**
+     * List all current setting values
+     *
+     * Retrieves all current settings for a given domain.
+     *
+     * @param  string $domain
+     * @return array
+     */
+    public function getSettings($domain)
+    {
+        $data = array(
+            'a' => 'zone_settings',
+            'z' => $domain,
+        );
+
+        $response = $this->send($data);
+
+        return $response->result->objs[0];
+    }
 
     /**
      * Clear CloudFlare's Cache
@@ -67,7 +87,7 @@ class SettingsService extends AbstractService
      * This function should be used sparingly.
      *
      * @param  string $domain
-     * @return array
+     * @return void
      */
     public function purge($domain)
     {
@@ -77,7 +97,25 @@ class SettingsService extends AbstractService
             'v' => 1,
         );
 
-        return $this->send($data);
+        $this->send($data);
+    }
+
+    /**
+     * Get the cache level
+     *
+     * @param  string $domain
+     * @return string
+     */
+    public function getCacheLevel($domain)
+    {
+        $settings = $this->getSettings($domain);
+        if (!isset($settings->cache_lvl)
+            || !array_key_exists($settings->cache_lvl, $this->cacheLevels)
+        ) {
+            return null;
+        }
+
+        return $this->cacheLevels[$settings->cache_lvl];
     }
 
     /**
@@ -87,11 +125,11 @@ class SettingsService extends AbstractService
      *
      * @param  string $domain
      * @param  string $level
-     * @return array
+     * @return void
      */
     public function setCacheLevel($domain, $level)
     {
-        if (!in_array($level, $this->cacheLevels)) {
+        if (!array_key_exists($level, $this->cacheLevels)) {
             throw new Exception\InvalidArgumentException(
                 'The cache level specified is not valid'
             );
@@ -103,7 +141,25 @@ class SettingsService extends AbstractService
             'v' => $level,
         );
 
-        return $this->send($data);
+        $this->send($data);
+    }
+
+    /**
+     * Get the security level
+     *
+     * @param  string $domain
+     * @return string
+     */
+    public function getSecurityLevel($domain)
+    {
+        $settings = $this->getSettings($domain);
+        if (!isset($settings->sec_lvl)
+            || !array_key_exists($settings->sec_lvl, $this->securityLevels)
+        ) {
+            return null;
+        }
+
+        return $this->securityLevels[$settings->sec_lvl];
     }
 
     /**
@@ -113,11 +169,11 @@ class SettingsService extends AbstractService
      *
      * @param  string $domain
      * @param  string $level
-     * @return array
+     * @return void
      */
     public function setSecurityLevel($domain, $level)
     {
-        if (!in_array($level, $this->securityLevels)) {
+        if (!array_key_exists($level, $this->securityLevels)) {
             throw new Exception\InvalidArgumentException(
                 'The security level specified is not valid'
             );
@@ -129,7 +185,23 @@ class SettingsService extends AbstractService
             'v' => $level,
         );
 
-        return $this->send($data);
+        $this->send($data);
+    }
+
+    /**
+     * Get the development mode status
+     *
+     * @param  string $domain
+     * @return string
+     */
+    public function getDevelopmentMode($domain)
+    {
+        $settings = $this->getSettings($domain);
+        if (!$settings->dev_mode) {
+            return 'Off';
+        }
+
+        return 'On';
     }
 
     /**
@@ -141,7 +213,7 @@ class SettingsService extends AbstractService
      *
      * @param  string $domain
      * @param  int $mode
-     * @return array
+     * @return void
      */
     public function setDevelopmentMode($domain, $mode)
     {
@@ -157,7 +229,25 @@ class SettingsService extends AbstractService
             'v' => $mode,
         );
 
-        return $this->send($data);
+        $this->send($data);
+    }
+
+    /**
+     * Get the minification
+     *
+     * @param  string $domain
+     * @return string
+     */
+    public function getMinification($domain)
+    {
+        $settings = $this->getSettings($domain);
+        if (!isset($settings->minify)
+            || !array_key_exists($settings->minify, $this->minificationValues)
+        ) {
+            return null;
+        }
+
+        return $this->minificationValues[$settings->minify];
     }
 
     /**
@@ -167,11 +257,11 @@ class SettingsService extends AbstractService
      *
      * @param  string $domain
      * @param  string $value
-     * @return array
+     * @return void
      */
     public function setMinification($domain, $value)
     {
-        if (!in_array($value, $this->minificationValues)) {
+        if (!array_key_exists($value, $this->minificationValues)) {
             throw new Exception\InvalidArgumentException(
                 'The minification value specified is not valid'
             );
@@ -183,6 +273,6 @@ class SettingsService extends AbstractService
             'v' => $value,
         );
 
-        return $this->send($data);
+        $this->send($data);
     }
 }
