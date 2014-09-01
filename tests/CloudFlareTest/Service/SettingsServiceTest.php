@@ -82,4 +82,20 @@ class SettingsServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->service->setDevelopmentMode('domain.com', $mode);
     }
+
+    public function testSetMinification()
+    {
+        $minificationValue = SettingsService::MINIFY_JAVASCRIPT_AND_CSS;
+
+        $this->service
+            ->expects($this->once())
+            ->method('send')
+            ->with(array(
+                'a' => 'minify',
+                'z' => 'domain.com',
+                'v' => $minificationValue,
+            ));
+
+        $this->service->setMinification('domain.com', $minificationValue);
+    }
 }

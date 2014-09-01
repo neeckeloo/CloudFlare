@@ -82,4 +82,17 @@ class SettingsConsoleController extends AbstractActionController
             $modeStr
         );
     }
+
+    public function minificationAction()
+    {
+        $domain = $this->params('domain');
+        $value = $this->params('value');
+
+        $this->settingsService->setMinification($domain, $value);
+
+        return sprintf(
+            "\nMinification for domain %s changed\n\n",
+            $domain
+        );
+    }
 }

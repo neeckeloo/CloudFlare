@@ -63,6 +63,16 @@ return array(
                         ),
                     ),
                 ),
+                'cdn-minify' => array(
+                    'type' => 'Simple',
+                    'options' => array(
+                        'route'    => 'cdn minify <domain> <value>',
+                        'defaults' => array(
+                            'controller' => 'CloudFlare\Controller\SettingsConsoleController',
+                            'action'     => 'minify',
+                        ),
+                    ),
+                ),
             ),
         ),
     ),

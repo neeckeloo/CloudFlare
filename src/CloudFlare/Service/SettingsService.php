@@ -17,6 +17,15 @@ class SettingsService extends AbstractService
     const DEVELOPMENT_MODE_ON = 1;
     const DEVELOPMENT_MODE_OFF = 0;
 
+    const MINIFY_OFF = 0;
+    const MINIFY_JAVASCRIPT_ONLY = 1;
+    const MINIFY_CSS_ONLY = 2;
+    const MINIFY_JAVASCRIPT_AND_CSS = 3;
+    const MINIFY_HTML_ONLY = 4;
+    const MINIFY_JAVASCRIPT_AND_HTML = 5;
+    const MINIFY_CSS_AND_HTML = 6;
+    const MINIFY_CSS_JAVASCRIPT_AND_HTML = 7;
+
     /**
      * @var array
      */
@@ -34,6 +43,20 @@ class SettingsService extends AbstractService
         self::SECURITY_LEVEL_MEDIUM,
         self::SECURITY_LEVEL_LOW,
         self::SECURITY_LEVEL_ESSENTIALLY_OFF,
+    );
+
+    /**
+     * @var array
+     */
+    protected $minificationValues = array(
+        self::MINIFY_OFF,
+        self::MINIFY_JAVASCRIPT_ONLY,
+        self::MINIFY_CSS_ONLY,
+        self::MINIFY_JAVASCRIPT_AND_CSS,
+        self::MINIFY_HTML_ONLY,
+        self::MINIFY_JAVASCRIPT_AND_HTML,
+        self::MINIFY_CSS_AND_HTML,
+        self::MINIFY_CSS_JAVASCRIPT_AND_HTML,
     );
 
     /**
@@ -132,6 +155,32 @@ class SettingsService extends AbstractService
             'a' => 'devmode',
             'z' => $domain,
             'v' => $mode,
+        );
+
+        return $this->send($data);
+    }
+
+    /**
+     * Set the minification
+     *
+     * Changes minification settings.
+     *
+     * @param  string $domain
+     * @param  string $value
+     * @return array
+     */
+    public function setMinification($domain, $value)
+    {
+        if (!in_array($value, $this->minificationValues)) {
+            throw new Exception\InvalidArgumentException(
+                'The minification value specified is not valid'
+            );
+        }
+
+        $data = array(
+            'a' => 'minify',
+            'z' => $domain,
+            'v' => $value,
         );
 
         return $this->send($data);
