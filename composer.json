@@ -21,7 +21,7 @@
         "zendframework/zend-mvc": "2.*",
         "zendframework/zend-servicemanager": "2.*",
         "zendframework/zend-stdlib": "2.*",
-        "phpunit/phpunit": "3.7.*",
+        "phpunit/phpunit": "4.2.*",
         "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
